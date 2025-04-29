@@ -569,7 +569,7 @@ function info_colorbar {
 
 # ===== OS =====
 function info_os {
-    if ($os -Like "*Windows 10 *" -or $os -Like "*Windows 11 *") {
+    if ($os -like "*Windows 10 *" -or $os -like "*Windows 11 *") {
         $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion
         $osfull = "$($os.Caption.TrimStart('Microsoft ')) $version [$($os.OSArchitecture)]"
     }
