@@ -435,7 +435,7 @@ $img = if (-not $noimage) {
         if (-not $logo) {
             if ($os -Like "*Windows 11 *") {
                 $logo = "Windows 11"
-            } elseif ($os -Like "*Windows 10 *" -Or $os -Like "*Windows 8.1 *" -Or $os -Like "*Windows 8 *") {
+            } elseif ($os -like "*Windows 10 *" -or $os -Like "*Windows 8.1 *" -or $os -like "*Windows 8 *") {
                 $logo = "Windows 10"
             } else {
                 $logo = "Windows 7"
@@ -461,7 +461,7 @@ $img = if (-not $noimage) {
                 "${e}[${t};34mlllllllllllllll   lllllllllllllll"
                 "${e}[${t};34mlllllllllllllll   lllllllllllllll"
             )
-        } elseif ($logo -eq "Windows 10" -Or $logo -eq "Windows 8.1" -Or $logo -eq "Windows 8") {
+        } elseif ($logo -eq "Windows 10" -or $logo -eq "Windows 8.1" -or $logo -eq "Windows 8") {
             $COLUMNS = 34
             @(
                 "${e}[${t};34m                    ....,,:;+ccllll"
@@ -483,7 +483,7 @@ $img = if (-not $noimage) {
                 "${e}[${t};34m                       ````````''*::cll"
                 "${e}[${t};34m                                 ````"
             )
-        } elseif ($logo -eq "Windows 7" -Or $logo -eq "Windows Vista" -Or $logo -eq "Windows XP") {
+        } elseif ($logo -eq "Windows 7" -or $logo -eq "Windows Vista" -or $logo -eq "Windows XP") {
             $COLUMNS = 35
             @(
                 "${e}[${t};31m        ,.=:!!t3Z3z.,               "
@@ -515,7 +515,7 @@ $img = if (-not $noimage) {
                 "${e}[${t};34m│     │${e}[33m│     │"
                 "${e}[${t};34m└─────┘${e}[33m└─────┘"
             )
-        } elseif ($logo -eq "Windows 2000" -Or $logo -eq "Windows 98" -Or $logo -eq "Windows 95") {
+        } elseif ($logo -eq "Windows 2000" -or $logo -eq "Windows 98" -or $logo -eq "Windows 95") {
             $COLUMNS = 45
             @(
                 "                         ${e}[${t};30mdBBBBBBBb"
@@ -569,9 +569,16 @@ function info_colorbar {
 
 # ===== OS =====
 function info_os {
+    if ($os -Like "*Windows 10 *" -or $os -Like "*Windows 11 *") {
+        $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion
+        $osfull = "$($os.Caption.TrimStart('Microsoft ')) $version [$($os.OSArchitecture)]"
+    }
+    else{
+        $osfull = "$($os.Caption.TrimStart('Microsoft ')) [$($os.OSArchitecture)]"
+    }
     return @{
         title   = "OS"
-        content = "$($os.Caption.TrimStart('Microsoft ')) [$($os.OSArchitecture)]"
+        content = $osfull
     }
 }
 
